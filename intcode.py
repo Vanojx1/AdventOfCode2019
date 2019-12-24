@@ -1,3 +1,22 @@
+from collections import defaultdict
+
+
+class Intcode(list):
+    extra_memory = defaultdict(int)
+
+    def __getitem__(self, i):
+        if i >= len(self):
+            return self.extra_memory[i]
+        else:
+            return super().__getitem__(i)
+
+    def __setitem__(self, i, value):
+        if i >= len(self):
+            self.extra_memory[i] = value
+        else:
+            super().__setitem__(i, value)
+
+
 class IntcodeProgram:
 
     class Istruction:
@@ -95,6 +114,14 @@ class IntcodeProgram:
             else:
                 cls.set(target, 0)
 
+    class AdjustRelativeBase(Istruction):
+        jump = 2
+
+        @staticmethod
+        def exec(cls, p1):
+            a = cls.get_index(*p1)
+            cls.move_base(cls.get(a))
+
     class Exit(Istruction):
         jump = 0
 
@@ -111,28 +138,33 @@ class IntcodeProgram:
         6: JumpIfFalse,
         7: LessThan,
         8: Equal,
+        9: AdjustRelativeBase,
         99: Exit
     }
 
     def __init__(self, intcode, input_value=0):
         self.input = [input_value]
-        self.output = None
-        self.intcode = intcode.copy()
+        self.output = []
+        self.intcode = Intcode(intcode.copy())
         self.pointer = 0
         self.halted = False
+        self.relative_base = 0
+        self.extra_memory = defaultdict(int)
 
     def get_index(self, index, mode):
         if mode == 0:
             return self.intcode[index]
-        else:
+        elif mode == 1:
             return index
+        else:
+            return self.relative_base + self.intcode[index]
 
     def fetch_opcode(self, opcode):
         str_opcode = str(opcode)
         if len(str_opcode) == 1 or opcode == 99:
             return opcode, []
         else:
-            return int(str_opcode[2:]), \
+            return int(str_opcode[-2:]), \
                 list(map(lambda i: int(i), str_opcode[:-2]))[::-1]
 
     def set(self, index, value):
@@ -148,13 +180,19 @@ class IntcodeProgram:
         return self.input.pop()
 
     def set_output(self, value):
-        self.output = value
+        self.output.append(str(value))
+
+    def get_output(self):
+        return ','.join(self.output)
 
     def set_pointer(self, value):
         self.pointer = value
 
     def halt(self):
         self.halted = True
+
+    def move_base(self, offset):
+        self.relative_base += offset
 
     def next(self):
         opcode, param_modes = self.fetch_opcode(self.intcode[self.pointer])
@@ -165,7 +203,6 @@ class IntcodeProgram:
             param_modes
         )
 
-    def run(self):
-        self.output = None
-        while not self.halted and self.output is None:
+    def run(self, till_output=False):
+        while not self.halted and (not till_output or len(self.output) != 0):
             self.next()

@@ -12,7 +12,7 @@ for settings in permutations(range(5), 5):
         ip = IntcodeProgram(d7_input, curr_setting)
         ip.set_input(curr_signal)
         ip.run()
-        curr_signal = ip.output
+        curr_signal = int(ip.get_output())
     highest_signal = max(highest_signal, curr_signal)
 
 print('D7P1 result:', highest_signal)
@@ -26,9 +26,10 @@ for settings in permutations(range(5, 10)):
     while all(not ip.halted for ip in ip_mapping):
         for ip in ip_mapping:
             ip.set_input(curr_signal)
-            ip.run()
-            if not ip.halted:
-                curr_signal = ip.output
+            ip.run(True)
+            out = ip.get_output()
+            if not ip.halted and out != '':
+                curr_signal = int(out)
     highest_signal = max(highest_signal, curr_signal)
 
 print('D7P2 result:', highest_signal)
