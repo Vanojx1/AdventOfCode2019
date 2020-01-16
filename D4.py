@@ -11,13 +11,14 @@ def match_incremental(psw):
     ))
 
 
-num_ok = 0
-for password in d4_input:
-    str_password = str(password)
-    if re.search(r'(\d)\1+', str_password) and match_incremental(str_password):
-        num_ok += 1
-
-print('D4P1 result:', num_ok)
+def d4p1():
+    num_ok = 0
+    for password in d4_input:
+        str_password = str(password)
+        if re.search(r'(\d)\1+', str_password) \
+                and match_incremental(str_password):
+            num_ok += 1
+    return num_ok
 
 
 def match_group(psw):
@@ -26,10 +27,15 @@ def match_group(psw):
     ))
 
 
-num_ok = 0
-for password in d4_input:
-    str_password = str(password)
-    if match_group(str_password) and match_incremental(str_password):
-        num_ok += 1
+def d4p2():
+    num_ok = 0
+    for password in d4_input:
+        str_password = str(password)
+        if match_group(str_password) and match_incremental(str_password):
+            num_ok += 1
+    return num_ok
 
-print('D4P2 result:', num_ok)
+
+if __name__ == '__main__':
+    print('D4P1 result:', d4p1())
+    print('D4P2 result:', d4p2())

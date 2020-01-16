@@ -142,14 +142,13 @@ class IntcodeProgram:
         99: Exit
     }
 
-    def __init__(self, intcode, input_value=0):
-        self.input = [input_value]
+    def __init__(self, intcode, *inputs):
+        self.input = [*inputs]
         self.output = []
         self.intcode = Intcode(intcode.copy())
         self.pointer = 0
         self.halted = False
         self.relative_base = 0
-        self.extra_memory = defaultdict(int)
 
     def get_index(self, index, mode):
         if mode == 0:
@@ -182,9 +181,6 @@ class IntcodeProgram:
     def set_output(self, value):
         self.output.append(str(value))
 
-    def get_output(self):
-        return ','.join(self.output)
-
     def set_pointer(self, value):
         self.pointer = value
 
@@ -202,7 +198,22 @@ class IntcodeProgram:
             range(self.pointer+1, self.pointer+fn.jump),
             param_modes
         )
+        return opcode
 
-    def run(self, till_output=False):
-        while not self.halted and (not till_output or len(self.output) != 0):
+    def run(self):
+        while not self.halted:
             self.next()
+
+    def run_till_input(self):
+        while not self.halted:
+            nextop, param_modes = self.fetch_opcode(self.intcode[self.pointer])
+            if nextop == 3:
+                break
+            self.next()
+
+    def run_till_output(self, length=1):
+        while not self.halted and len(self.output) < length:
+            self.next()
+
+    def reset_output(self):
+        self.output = []
