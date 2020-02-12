@@ -150,6 +150,12 @@ class IntcodeProgram:
         self.halted = False
         self.relative_base = 0
 
+    def clone(self):
+        clone = IntcodeProgram(self.intcode)
+        clone.pointer = self.pointer
+        clone.relative_base = self.relative_base
+        return clone
+
     def get_index(self, index, mode):
         if mode == 0:
             return self.intcode[index]

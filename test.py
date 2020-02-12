@@ -12,6 +12,7 @@ from D10 import d10p1, d10p2
 from D11 import d11p1, d11p2
 from D12 import d12p1, d12p2
 from D13 import d13p1, d13p2
+from D14 import d14p1, d14p2
 
 
 class TestD1(unittest.TestCase):
@@ -116,6 +117,14 @@ class TestD13(unittest.TestCase):
 
     def test_p2(self):
         self.assertEqual(d13p2(), 9803)
+
+
+class TestD14(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d14p1(), 485720)
+
+    def test_p2(self):
+        self.assertEqual(d14p2(), 3848998)
 
 
 if __name__ == '__main__':
