@@ -169,7 +169,7 @@ class App(object):
             self.program.set_input(fn)
         self.program.run()
 
-        self.d17p2 = self.program.output[-1]
+        self.d17p2 = int(self.program.output[-1])
 
         [s.update(SCAFFOLD) for s in self.scaffold_mapping.values()]
         self.robot.update(robot_start_dir)

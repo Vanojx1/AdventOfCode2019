@@ -1,5 +1,4 @@
 # from PIL import Image, ImageDraw
-import numpy
 
 with open('input/d3.txt') as f:
     d3_input = [l.rstrip('\n').split(',') for l in f.readlines()]
@@ -37,7 +36,7 @@ for wire_index, wire in enumerate(d3_input):
 
 
 def d3p1():
-    bitmap = numpy.full((maxy*2+1, maxx*2+1), '#')
+    bitmap = [list('#' * (maxx*2+1)) for _ in range(maxy*2+1)]
 
     min_distance = float('inf')
     # img = Image.new('RGB', (maxx * 2, maxy * 2), "white")
@@ -72,7 +71,7 @@ def d3p1():
 
 
 def d3p2():
-    bitmap = numpy.full((maxy*2+1, maxx*2+1), '#')
+    bitmap = [list('#' * (maxx*2+1)) for _ in range(maxy*2+1)]
 
     intercept_mapping = {}
     # img = Image.new('RGB', (maxx * 2, maxy * 2), "white")

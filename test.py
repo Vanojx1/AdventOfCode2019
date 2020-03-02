@@ -13,6 +13,11 @@ from D11 import d11p1, d11p2
 from D12 import d12p1, d12p2
 from D13 import d13p1, d13p2
 from D14 import d14p1, d14p2
+from D15 import d15p1, d15p2
+from D16 import d16p1, d16p2
+from D17 import d17p1, d17p2
+from D18 import d18p1, d18p2
+from D19 import d19p1, d19p2
 
 
 class TestD1(unittest.TestCase):
@@ -125,6 +130,46 @@ class TestD14(unittest.TestCase):
 
     def test_p2(self):
         self.assertEqual(d14p2(), 3848998)
+
+
+class TestD15(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d15p1(), 282)
+
+    def test_p2(self):
+        self.assertEqual(d15p2(), 286)
+
+
+class TestD16(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d16p1(), 15841929)
+
+    def test_p2(self):
+        self.assertEqual(d16p2(), 39011547)
+
+
+class TestD17(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d17p1(), 5940)
+
+    def test_p2(self):
+        self.assertEqual(d17p2(), 923795)
+
+
+class TestD18(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d18p1(), 4270)
+
+    def test_p2(self):
+        self.assertEqual(d18p2(), 1982)
+
+
+class TestD19(unittest.TestCase):
+    def test_p1(self):
+        self.assertEqual(d19p1(), 166)
+
+    def test_p2(self):
+        self.assertEqual(d19p2(), 3790981)
 
 
 if __name__ == '__main__':
